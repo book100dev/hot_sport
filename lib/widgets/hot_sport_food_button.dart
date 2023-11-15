@@ -124,7 +124,7 @@ class HotSportFoodButton<T> extends HotSportWidget {
         children: [
           const Text('菜品'),
           Row(
-            children:  [
+            children: [
               FaIcon(
                 FontAwesomeIcons.circleMinus,
                 color: HexColor.fromHex('#333333'),
@@ -403,7 +403,7 @@ class _FoodButtonState extends State<FoodButton>
       case HotSportButtonType.food2:
         {
           child = Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
+            padding: const EdgeInsets.all(8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment
                   .spaceBetween, //可配置spaceBetween 和  spaceAround
@@ -411,9 +411,10 @@ class _FoodButtonState extends State<FoodButton>
                 Offstage(
                     offstage: showFoodName,
                     child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         alignment: alignment(widget.componetOption),
                         width: double.infinity,
-                        height: 40,
+                        // height: 40,
                         child: _bText(foodName, widget.componetOption))),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -423,11 +424,14 @@ class _FoodButtonState extends State<FoodButton>
                         offstage: showFoodUnit,
                         child: _bPriceInfo(
                             foodPrice, foodUnit, widget.componetOption)),
-                    buttonBuilder(
-                        food: widget.food,
-                        delegate: this,
-                        hotSportFoodController: hotSportFoodController,
-                        componetOption: widget.componetOption),
+                    Container(
+                      constraints: const BoxConstraints(minHeight: 60),
+                      child: buttonBuilder(
+                          food: widget.food,
+                          delegate: this,
+                          hotSportFoodController: hotSportFoodController,
+                          componetOption: widget.componetOption),
+                    ),
                   ],
                 )
               ],
@@ -438,69 +442,80 @@ class _FoodButtonState extends State<FoodButton>
 
       case HotSportButtonType.food3:
         {
-          double baseFoodHeight = fSize + 3;
-          child = Column(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, //可配置spaceBetween 和  spaceAround
-            children: [
-              Offstage(
-                  offstage: showFoodName,
-                  child: Container(
-                    alignment: alignment(widget.componetOption),
-                    width: 80,
-                    height:
-                        baseFoodHeight * (fSize / 18) * foodName.length * 1.8,
-                    child: SizedBox(
-                      width: 20,
-                      child: _bText(foodName, widget.componetOption),
-                    ),
-                  )),
-              Offstage(
-                  offstage: showFoodUnit,
-                  child:
-                      _bPriceInfo(foodPrice, foodUnit, widget.componetOption)),
-              Container(
-                  child: buttonBuilder(
-                      food: widget.food,
-                      delegate: this,
-                      hotSportFoodController: hotSportFoodController,
-                      componetOption: widget.componetOption)),
-            ],
+          // double baseFoodHeight = fSize + 3;
+          child = Container(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceBetween, //可配置spaceBetween 和  spaceAround
+              children: [
+                Offstage(
+                    offstage: showFoodName,
+                    child: Container(
+                      // color: Colors.red,
+                      alignment: alignment(widget.componetOption),
+                      width: 80,
+                      // height:
+                      //     baseFoodHeight * (fSize / 18) * foodName.length * 1.8,
+                      child: SizedBox(
+                        width: 20,
+                        child: _bText(foodName, widget.componetOption),
+                      ),
+                    )),
+                Offstage(
+                    offstage: showFoodUnit,
+                    child: _bPriceInfo(
+                        foodPrice, foodUnit, widget.componetOption)),
+                Container(
+                    constraints: const BoxConstraints(minHeight: 60),
+                    child: buttonBuilder(
+                        food: widget.food,
+                        delegate: this,
+                        hotSportFoodController: hotSportFoodController,
+                        componetOption: widget.componetOption)),
+              ],
+            ),
           );
         }
         break;
       case HotSportButtonType.food4:
         {
-          child = Column(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, //可配置spaceBetween 和  spaceAround
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Offstage(
-                  offstage: showFoodName,
-                  child: Container(
-                    alignment: alignment(widget.componetOption),
-                    width: double.infinity,
-                    height: 40,
-                    child: _bText(foodName, widget.componetOption),
-                  )),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Column(
-                  children: [
-                    Offstage(
-                        offstage: showFoodUnit,
-                        child: _bPriceInfo(
-                            foodPrice, foodUnit, widget.componetOption)),
-                    buttonBuilder(
-                        food: widget.food,
-                        delegate: this,
-                        hotSportFoodController: hotSportFoodController,
-                        componetOption: widget.componetOption)
-                  ],
-                ),
-              )
-            ],
+          child = Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceBetween, //可配置spaceBetween 和  spaceAround
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Offstage(
+                    offstage: showFoodName,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      alignment: alignment(widget.componetOption),
+                      width: double.infinity,
+                      child: _bText(foodName, widget.componetOption),
+                    )),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    children: [
+                      Offstage(
+                          offstage: showFoodUnit,
+                          child: _bPriceInfo(
+                              foodPrice, foodUnit, widget.componetOption)),
+                      Container(
+                        constraints: const BoxConstraints(minHeight: 60),
+                        child: buttonBuilder(
+                            food: widget.food,
+                            delegate: this,
+                            hotSportFoodController: hotSportFoodController,
+                            componetOption: widget.componetOption),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           );
         }
         break;
@@ -518,15 +533,18 @@ class _FoodButtonState extends State<FoodButton>
                     Offstage(
                         offstage: showFoodName,
                         child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           alignment: Alignment.centerLeft,
-                          height: 40,
                           child: _bText(foodName, widget.componetOption),
                         )),
-                    buttonBuilder(
-                        food: widget.food,
-                        delegate: this,
-                        hotSportFoodController: hotSportFoodController,
-                        componetOption: widget.componetOption),
+                    Container(
+                      constraints: const BoxConstraints(minHeight: 60),
+                      child: buttonBuilder(
+                          food: widget.food,
+                          delegate: this,
+                          hotSportFoodController: hotSportFoodController,
+                          componetOption: widget.componetOption),
+                    ),
                   ],
                 ),
                 Offstage(
@@ -740,7 +758,7 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
                 decoration: TextDecoration.none,
                 color: textColor(widget.componetOption),
                 fontSize: (widget.componetOption != null
-                        ? widget.componetOption?.textStyle?.fontSize
+                        ? widget.componetOption!.textStyle!.fontSize - 1
                         : GlobalTheme.of(context).foodNameFontSize)! -
                     1,
                 package: 'hot_sport',
@@ -764,7 +782,12 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
                 iconStyle == 0
                     ? FontAwesomeIcons.circleMinus
                     : FontAwesomeIcons.squareMinus,
-                size: 30,
+                size: widget.componetOption == null
+                    ? 32
+                    : widget.componetOption!.textStyle!.fontSize.clamp(32, 45),
+                // (widget.componetOption!.textStyle!.fontSize > 20
+                //     ? widget.componetOption!.textStyle!.fontSize + 5
+                //     : 35),
                 color: iconColor,
               ),
               onPressed: () {
@@ -793,7 +816,12 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
                 iconStyle == 0
                     ? FontAwesomeIcons.circlePlus
                     : FontAwesomeIcons.squarePlus,
-                size: 30,
+                size: widget.componetOption == null
+                    ? 32
+                    : widget.componetOption!.textStyle!.fontSize.clamp(32, 45),
+                // (widget.componetOption!.textStyle!.fontSize > 20
+                //     ? widget.componetOption!.textStyle!.fontSize.clamp(35,45)
+                //     : 35),
                 color: iconColor,
               ),
               onPressed: () => _add()),

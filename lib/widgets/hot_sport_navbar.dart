@@ -534,7 +534,7 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
     if (_currentIndex == index) {
       boxDecoration = BoxDecoration(
           image: widget.itemBackgroundImageUrl != null
-              ? widget.itemUnselectedBackgroundImageUrl!.isEmpty
+              ? widget.itemBackgroundImageUrl!.isEmpty
                   ? null
                   : DecorationImage(
                       image: CachedNetworkImageProvider(

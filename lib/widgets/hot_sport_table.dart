@@ -32,8 +32,8 @@ class HotSportTable extends HotSportWidget {
           : BorderRadius.all(
               Radius.circular(componetOption!.boxDecoration!.borderRadius)),
       child: Container(
-          color: hotSportInterface.isHotSportBuildersRegistered ? Colors.white12 : Colors.transparent,
+          //color: hotSportInterface.isHotSportBuildersRegistered ? Colors.white12 : Colors.transparent,
           child: (content.isEmpty
               ? snapshot
-              : Center(child: Text('这是一个列表'),))));
+              : const Center(child: Text('这是一个列表'),))));
 }

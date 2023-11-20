@@ -19,7 +19,7 @@ class HotSportImage extends HotSportWidget {
   double get defaultHight => ComponetType.image.size.height;
 
   @override
-  Widget get snapshot =>  hotSportInterface.isHotSportBuildersRegistered
+  Widget get snapshot => hotSportInterface.isHotSportBuildersRegistered
       ? SizedBox(
           width: ComponetType.image.size.width,
           height: ComponetType.image.size.height,
@@ -36,14 +36,15 @@ class HotSportImage extends HotSportWidget {
           : BorderRadius.all(
               Radius.circular(componetOption!.boxDecoration!.borderRadius)),
       child: Container(
-          color: hotSportInterface.isHotSportBuildersRegistered ? Colors.white12 : Colors.transparent,
+          color: content.isEmpty ? Colors.white12 : Colors.transparent,
+          //hotSportInterface.isHotSportBuildersRegistered ? Colors.white12 : Colors.transparent,
           child: (content.isEmpty
               ? snapshot
               : ExtendedImage.network(
                   content,
                   fit: BoxFit.fill,
                   cache: true,
-                  border: Border.all(color: Colors.white, width: 1.0),
+                  //border: Border.all(color: Colors.white, width: 1.0),
                   shape: BoxShape.rectangle,
                 ))));
 }

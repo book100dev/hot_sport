@@ -32,12 +32,12 @@ class HotSportModel {
 
   List<HotSportModel>? components;
 
-  HotSportModel.fromJson(Map<String, dynamic> json)
+  HotSportModel.fromJson(Map<String, dynamic> json,{String? foodCategoryName})
       : pageId = json['pageId'],
         hotsportId = json['hotsportId'],
         parentHotsportId = json['parentHotsportId'],
         widgetInfo = json['widgetInfo'] != null
-            ? WidgetInfo.fromJson(json['widgetInfo'])
+            ? WidgetInfo.fromJson(json['widgetInfo'],foodCategoryName: foodCategoryName)
             : null,
         componetOption = json['componetOption'] != null
             ? ComponetOption.fromJson(json['componetOption'])

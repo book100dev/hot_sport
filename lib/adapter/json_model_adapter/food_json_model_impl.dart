@@ -6,12 +6,12 @@ import 'json_model_type_registry_impl.dart';
 class FoodJsonModelImpl extends JsonModelTypeRegistryImpl
     implements FoodJsonModelInterface {
   @override
-  T? fromJson<T>(Map<String, dynamic> json) {
+  T? fromJson<T>(Map<String, dynamic> json,{String? fixPageTitle}) {
     if (!isAdapterRegistered(T)) {
       return null;
     }
     ResolvedJsonModelAdapter? resolvedAdapter = findAdapterForTypeId(T);
-    var jsonString = resolvedAdapter?.adapter.fromJson(json);
+    var jsonString = resolvedAdapter?.adapter.fromJson(json,fixPageTitle: fixPageTitle);
     return jsonString;
   }
 

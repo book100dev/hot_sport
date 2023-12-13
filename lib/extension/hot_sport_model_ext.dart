@@ -20,9 +20,9 @@ extension HotSprotFirstWhereExt<T> on List<HotSportModel> {
   }
 
   hotSportSetEventWhereOrNull(
-      {required String componentName, SportMoldeEvent? event}) {
+      {required String componentTag, SportMoldeEvent? event}) {
     recursiveTraverseHotSportData(HotSportModel parentHotsport) {
-      if (parentHotsport.widgetInfo?.componentName == componentName) {
+      if (parentHotsport.widgetInfo?.componentTag == componentTag) {
         event?.event = parentHotsport.componetOption?.event?.event;
         parentHotsport.componetOption?.event = event;
       }

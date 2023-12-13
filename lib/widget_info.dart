@@ -189,12 +189,12 @@ class WidgetInfo implements BaseComponetBean {
     return Container();
   }
 
-  WidgetInfo.fromJson(Map<String, dynamic> json)
+  WidgetInfo.fromJson(Map<String, dynamic> json,{String? foodCategoryName})
       : componentTag = json['componentTag'],
         componentName = json['componentName'],
         componentId = json['componentId'],
         content = json['content'],
-        food = json['food'] == null ? null : jsonConvert.fromJson(json['food']);
+        food = json['food'] == null ? null : (jsonConvert.fromJson(json['food'],fixPageTitle: foodCategoryName));
 
   Map<String, dynamic> toJson() => {
         'componentTag': componentTag,

@@ -298,7 +298,7 @@ class GlobalThemeData with Diagnosticable {
             color: Color.lerp(a?.themeColor, b?.themeColor, t)),
         tagHeaderStyle: const TextStyle(
             package: 'hot_sport',
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w400,
             fontFamily: '思源黑体简体',
             fontSize: 13,
             color: Colors.black));

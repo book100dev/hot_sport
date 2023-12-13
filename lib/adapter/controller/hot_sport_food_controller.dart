@@ -6,7 +6,8 @@ mixin FoodViewModelDelegate {
   void userUpdateHotSportFoodValue(HotSportFoodValue value, double foodNumber);
   void hotSportButtonReduce(HotSportFoodValue value, double foodNumber);
   void hotSportButtonAdd(HotSportFoodValue value, double foodNumber);
-  bool userWillShouldUpdateWithFoodValue(HotSportFoodValue value,{required bool condition});
+  bool userWillShouldUpdateWithFoodValue(HotSportFoodValue value,
+      {required bool condition});
 }
 
 enum FoodButtonDataState { none, waiting, soldOut, sale, noData, done }
@@ -38,17 +39,17 @@ class FoodGetXController extends GetxController {
   Function(HotSportFoodValue hotSportFoodValue, double foodNumber,
       dynamic foodViewModel)? hotSportFoodButtonAdd;
 
-  bool Function(HotSportFoodValue hotSportFoodValue, ValueChanged valueChanged, bool condition)?
-      hotSportFoodValueCanChanged;
+  bool Function(HotSportFoodValue hotSportFoodValue, ValueChanged valueChanged,
+      bool condition)? hotSportFoodValueCanChanged;
 
-  List hotSportControllers = [];
+  List<HotSportFoodController> hotSportControllers = [];
 
   HotSportFoodController? findCurrentHotSportController(
-      {required String foodID, required String unitKey}) {
+      {required String foodName, required String unit}) {
     return hotSportControllers.firstWhereOrNull((element) {
       dynamic food = element.food;
       try {
-        if (food.foodID == foodID && food.unitKey == unitKey) {
+        if (food.foodName == foodName && food.unit == unit) {
           return true;
         }
         return false;
@@ -56,6 +57,14 @@ class FoodGetXController extends GetxController {
         return false;
       }
     });
+  }
+
+  void updateHotSport({required String foodName, required String unit}) {
+    HotSportFoodController? controller =
+        findCurrentHotSportController(foodName: foodName, unit: unit);
+    if (controller != null) {
+      update([controller.food.hashCode]);
+    }
   }
 
   //是否要显示
@@ -97,7 +106,7 @@ class HotSportFoodController<T> extends ValueNotifier<HotSportFoodValue> {
   double maxNumber = 9999;
 
   reduceFood({bool remove = false}) {
-    delegate?.userWillShouldUpdateWithFoodValue(value,condition: false);
+    delegate?.userWillShouldUpdateWithFoodValue(value, condition: false);
     remove ? count.value = 0 : count.value--;
     delegate?.hotSportButtonReduce(value, count.value);
   }
@@ -143,10 +152,13 @@ class HotSportFoodController<T> extends ValueNotifier<HotSportFoodValue> {
     });
   }
 
-  bool get canAdd => delegate?.userWillShouldUpdateWithFoodValue(value,condition: true) ?? true;
+  bool get canAdd =>
+      delegate?.userWillShouldUpdateWithFoodValue(value, condition: true) ??
+      true;
 
   bool get canReduce =>
-      delegate?.userWillShouldUpdateWithFoodValue(value, condition: false) ?? true;
+      delegate?.userWillShouldUpdateWithFoodValue(value, condition: false) ??
+      true;
 
   void updateHotSportButtonCount() {
     bool isRegister = Get.isRegistered<FoodGetXController>();

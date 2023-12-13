@@ -93,6 +93,7 @@ class _NavBarWidgetState extends State<NavBarWidget>
                   ))
               .toList();
           _tabController = TabController(length: _tabs.length, vsync: this);
+          _tabController.index = navController.currentIndex;
           navController.tabController = _tabController;
         });
       }
@@ -395,7 +396,9 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
   @override
   void initState() {
     super.initState();
-    Get.put(HotSportTabBarBadgeController());
+    HotSportTabBarBadgeController hotSportTabBarBadgeController =
+        HotSportTabBarBadgeController();
+    Get.put(hotSportTabBarBadgeController);
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _getCenterPadding(context));
     _tabKeys = widget.tabs.map((Widget tab) => GlobalKey()).toList();
@@ -405,6 +408,11 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
     _animationController.addListener(() {
       setState(() {});
     });
+    hotSportTabBarBadgeController.updateAllBadge = () {
+      if (mounted) {
+        setState(() {});
+      }
+    };
   }
 
   void _updateTabController() {
@@ -835,8 +843,11 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
       double tabCenter = 0;
       if (index > _aniIndex) {
         //像前点击
+
         RenderBox buttonNextRenderBox =
-            _tabKeys[index + 1].currentContext?.findRenderObject() as RenderBox;
+            _tabKeys[(index + 1) >= _controller!.length ? index : (index + 1)]
+                .currentContext
+                ?.findRenderObject() as RenderBox;
         double positionNext =
             buttonNextRenderBox.localToGlobal(tabsContainerOffset).dx;
         tabCenter = (position + positionNext) / 2.0 - size;
@@ -872,7 +883,9 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
       if (index > _aniIndex) {
         //像前点击
         RenderBox buttonNextRenderBox =
-            _tabKeys[index + 1].currentContext?.findRenderObject() as RenderBox;
+            _tabKeys[(index + 1) >= _controller!.length ? index : (index + 1)]
+                .currentContext
+                ?.findRenderObject() as RenderBox;
         double positionNext =
             buttonNextRenderBox.localToGlobal(tabsContainerOffset).dy;
         tabCenter = (position + positionNext) / 2.0 - size;
@@ -897,15 +910,15 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
   }
 
   double _tabCenteredScrollOffset(int index) {
-    final ScrollPosition position = _scrollController!.position;
+    final ScrollPosition position = _scrollController.position;
     return _tabScrollOffset(index, position.viewportDimension,
         position.minScrollExtent, position.maxScrollExtent);
   }
 
   void _scrollToCurrentIndex(int index) {
     final double offset = _tabCenteredScrollOffset(_currentIndex!);
-    _scrollController
-        .animateTo(offset, duration: kTabScrollDuration, curve: Curves.ease);
+    _scrollController.animateTo(offset,
+        duration: kTabScrollDuration, curve: Curves.ease);
   }
 
   _scrollTo(int index) {

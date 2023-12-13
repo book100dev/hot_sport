@@ -58,35 +58,50 @@ class _ShopCartWidgetState extends State<ShopCartWidget>
   ComponetOption? get componetOption => widget.componetOption;
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.none,
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border(
-          bottom: BorderSide(
-              color: HexColor.fromHex(
-                  componetOption?.background?.hexColor ?? '000'),
-              width: 2), // 底部边框
-        )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('共计',
-                style: TextStyle(
-                    decoration: TextDecoration.none,
-                    color: textColor(componetOption),
-                    package: 'hot_sport',
-                    fontFamily: componetOption?.textStyle?.fontFamily,
-                    fontSize: componetOption != null
-                        ? componetOption?.textStyle?.fontSize
-                        : shopCartController.defaultTextFontSize,
-                    fontWeight: fontWeight(componetOption))),
-            Row(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  constraints: const BoxConstraints(minWidth: 50),
-                  child: Obx(() => Text('${shopCartController.price}',
+    return GetBuilder<ShopCartController>(builder: (controller) {
+      return FittedBox(
+        fit: BoxFit.none,
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(
+            bottom: BorderSide(
+                color: HexColor.fromHex(
+                    componetOption?.background?.hexColor ?? '000'),
+                width: 2), // 底部边框
+          )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('共计',
+                  style: TextStyle(
+                      decoration: TextDecoration.none,
+                      color: textColor(componetOption),
+                      package: 'hot_sport',
+                      fontFamily: componetOption?.textStyle?.fontFamily,
+                      fontSize: componetOption != null
+                          ? componetOption?.textStyle?.fontSize
+                          : shopCartController.defaultTextFontSize,
+                      fontWeight: fontWeight(componetOption))),
+              Row(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    constraints: const BoxConstraints(minWidth: 50),
+                    child: Obx(() => Text('${shopCartController.price}',
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            color: textColor(componetOption),
+                            package: 'hot_sport',
+                            fontFamily: componetOption?.textStyle?.fontFamily,
+                            fontSize: componetOption != null
+                                ? componetOption?.textStyle?.fontSize
+                                : shopCartController.defaultTextFontSize,
+                            fontWeight: fontWeight(componetOption)))),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text('元',
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           color: textColor(componetOption),
@@ -95,87 +110,79 @@ class _ShopCartWidgetState extends State<ShopCartWidget>
                           fontSize: componetOption != null
                               ? componetOption?.textStyle?.fontSize
                               : shopCartController.defaultTextFontSize,
-                          fontWeight: fontWeight(componetOption)))),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text('元',
-                    style: TextStyle(
-                        decoration: TextDecoration.none,
-                        color: textColor(componetOption),
-                        package: 'hot_sport',
-                        fontFamily: componetOption?.textStyle?.fontFamily,
-                        fontSize: componetOption != null
-                            ? componetOption?.textStyle?.fontSize
-                            : shopCartController.defaultTextFontSize,
-                        fontWeight: fontWeight(componetOption)))
-              ],
-            ),
-            10.widthBox,
-            Obx(() => sbadges.Badge(
-                  showBadge: shopCartController.count.value != 0,
-                  badgeStyle: sbadges.BadgeStyle(
-                    shape: sbadges.BadgeShape.circle,
-                    borderRadius: BorderRadius.circular(5),
-                    padding: const EdgeInsets.all(5),
-                    badgeGradient: const sbadges.BadgeGradient.linear(
-                      colors: [
-                        Colors.red,
-                        Colors.redAccent,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                          fontWeight: fontWeight(componetOption)))
+                ],
+              ),
+              10.widthBox,
+              Obx(() => sbadges.Badge(
+                    showBadge: shopCartController.count.value != 0,
+                    badgeStyle: sbadges.BadgeStyle(
+                      shape: sbadges.BadgeShape.circle,
+                      borderRadius: BorderRadius.circular(5),
+                      padding: const EdgeInsets.all(5),
+                      badgeGradient: const sbadges.BadgeGradient.linear(
+                        colors: [
+                          Colors.red,
+                          Colors.redAccent,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                     ),
-                  ),
-                  badgeContent: Text(shopCartController.count.toString(),
-                      style: const TextStyle(color: Colors.white)),
-                  child: SizedBox(
-                    width: 55,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      child: TextButton(
-                          onPressed:  hotSportInterface.isHotSportBuildersRegistered
-                              ? null
-                              : () {
-                                  if (componetOption?.event?.actionBlock !=
-                                      null) {
-                                    componetOption!.event!
-                                        .actionBlock!(NavBarAction.shopCart);
-                                  }
-                                },
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  HexColor.fromHex(componetOption!
-                                          .background!.hexColor.isEmpty
-                                      ? '000'
-                                      : componetOption!.background!.hexColor)),
-                              shape:
-                                  MaterialStateProperty.all(const StadiumBorder(
-                                      side: BorderSide(
-                                //color: Colors.black,
-                                style: BorderStyle.none,
-                              )))),
-                          child: Text(
-                            '已选',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                decoration: TextDecoration.none,
-                                color: Colors.white,
-                                package: 'hot_sport',
-                                fontFamily:
-                                    componetOption?.textStyle?.fontFamily,
-                                fontSize: componetOption != null
-                                    ? componetOption?.textStyle?.fontSize
-                                    : shopCartController.defaultTextFontSize,
-                                fontWeight: fontWeight(componetOption)),
-                          )),
+                    badgeContent: Text(shopCartController.count.toString(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize:
+                                componetOption?.textStyle?.fontSize ?? 18)),
+                    child: SizedBox(
+                      width: 55,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        child: TextButton(
+                            onPressed: hotSportInterface
+                                    .isHotSportBuildersRegistered
+                                ? null
+                                : () {
+                                    if (componetOption?.event?.actionBlock !=
+                                        null) {
+                                      componetOption!.event!
+                                          .actionBlock!(NavBarAction.shopCart);
+                                    }
+                                  },
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    HexColor.fromHex(componetOption!
+                                            .background!.hexColor.isEmpty
+                                        ? '000'
+                                        : componetOption!
+                                            .background!.hexColor)),
+                                shape: MaterialStateProperty.all(
+                                    const StadiumBorder(
+                                        side: BorderSide(
+                                  //color: Colors.black,
+                                  style: BorderStyle.none,
+                                )))),
+                            child: Text(
+                              '已选',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                  color: Colors.white,
+                                  package: 'hot_sport',
+                                  fontFamily:
+                                      componetOption?.textStyle?.fontFamily,
+                                  fontSize: componetOption != null
+                                      ? componetOption?.textStyle?.fontSize
+                                      : shopCartController.defaultTextFontSize,
+                                  fontWeight: fontWeight(componetOption)),
+                            )),
+                      ),
                     ),
-                  ),
-                ))
-          ],
+                  ))
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

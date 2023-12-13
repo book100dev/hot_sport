@@ -34,6 +34,7 @@ class HotSportNavBarController extends GetxController implements HotSportNavBarL
 
   set index(_) {
     if(tabController == null) return;
+    currentIndex = _;
     hotSportNavBarNotifier?.valueDetails.value = ListenerDetails(index:_,previousIndex: tabController!.previousIndex);
   }
 

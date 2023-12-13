@@ -15,11 +15,17 @@ class HotSportTabBarBadgeController extends GetxController {
   }
 
   void updateMneuCount({required String? title}) {
-    if(title == null) {
+    if (title == null) {
       updateAll();
-    }else {
+    } else {
       update([title]);
     }
   }
-  void updateAll() => update();
+
+  VoidCallback? updateAllBadge;
+  void updateAll() {
+    if (updateAllBadge != null) {
+      updateAllBadge!();
+    }
+  }
 }

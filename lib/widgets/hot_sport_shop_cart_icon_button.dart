@@ -78,6 +78,8 @@ class _HotSportShopCartIconButtonWidgetState
   ComponetOption? get componetOption => widget.componetOption;
   @override
   Widget build(BuildContext context) {
+    // return GetBuilder<ShopCartController>(builder: (controller) {
+    // });
     return Container(
       constraints:
           const BoxConstraints(maxWidth: 180, minHeight: 40, maxHeight: 50),
@@ -106,7 +108,7 @@ class _HotSportShopCartIconButtonWidgetState
                 ),
               ),
               badgeContent: Text(shopCartController.count.toString(),
-                  style: const TextStyle(color: Colors.white)),
+                  style:  TextStyle(color: Colors.white,fontSize: componetOption?.textStyle?.fontSize ?? 18)),
               child: OutlinedButton(
                 onPressed: hotSportInterface.isHotSportBuildersRegistered
                     ? null

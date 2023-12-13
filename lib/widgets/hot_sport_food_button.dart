@@ -73,7 +73,8 @@ mixin FoodButtonDataStateMixin<T> on HotSportWidgetTextMixin {
     }
     return isRegister
         ? GetBuilder<FoodGetXController>(
-            id: assignId ? food.hashCode : null,
+            //id: assignId ? food.hashCode.toString() : null,
+            id: food.hashCode,
             builder: (controller) {
               FoodButtonDataState state = controller.visible(food);
               bool hide = false;

@@ -4,7 +4,7 @@ abstract class JsonModelTypeAdapter<T> {
   Type get type;
 
   /// Is called when a value has to be decoded.
-  T? fromJson(Map<String, dynamic> json);
+  T? fromJson(Map<String, dynamic> json,{String? fixPageTitle});
 
   Map<String, dynamic>? toJson(dynamic data);
 

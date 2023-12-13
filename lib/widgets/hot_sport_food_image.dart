@@ -25,7 +25,7 @@ class HotSportFoodImage extends HotSportWidget {
   double get defaultHight => ComponetType.foodImage.size.height;
 
   @override
-  Widget get snapshot =>  hotSportInterface.isHotSportBuildersRegistered
+  Widget get snapshot => hotSportInterface.isHotSportBuildersRegistered
       ? const Center(child: Text('菜品图片', style: SnapshotExt.snapshotTextStyle))
       : Center(
           child: ExtendedImage.network(
@@ -38,7 +38,7 @@ class HotSportFoodImage extends HotSportWidget {
           : BorderRadius.all(
               Radius.circular(componetOption!.boxDecoration!.borderRadius)),
       child: Container(
-          color: content.isEmpty? Colors.white12 : Colors.transparent,
+          color: content.isEmpty ? Colors.white12 : Colors.transparent,
           // hotSportInterface.isHotSportBuildersRegistered ? Colors.white12 : Colors.transparent,
           child: (content.isEmpty
               ? snapshot
@@ -50,3 +50,4 @@ class HotSportFoodImage extends HotSportWidget {
                   shape: BoxShape.rectangle,
                 ))));
 }
+

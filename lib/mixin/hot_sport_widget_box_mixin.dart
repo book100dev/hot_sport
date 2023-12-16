@@ -54,6 +54,10 @@ mixin HotSportWidgetBoxMixin {
               DecorationImage(image: NetworkImage(option.background!.imageUrl)),
         );
     }
+    // if (option.background!.imageUrl.isNotEmpty) {
+    //   hotSportBoxDecoration.copyWith(
+    //       image: NetworkImage(option.background!.imageUrl));
+    // }
     return hotSportBoxDecoration;
   }
 }

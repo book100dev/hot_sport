@@ -9,6 +9,7 @@ class HotSportRequest<T> extends BoxRequest<T> {
     dynamic variant,
     String? content,
     String? hotSportId,
+    this.move = true,
     T? data,
     BaseViewModel? viewModel
   }) : super(
@@ -17,4 +18,5 @@ class HotSportRequest<T> extends BoxRequest<T> {
           data: data,
           viewModel: viewModel,
         );
+  final bool? move;
 }

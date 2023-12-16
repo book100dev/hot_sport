@@ -91,7 +91,7 @@ class HotSportModel {
         ));
   }
 
-  Widget drawRect({Size? parentSize}) {
+  Widget drawRect({Size? parentSize,bool move = true}) {
     return ViewModelBuilder<HotSportViewModel>.reactive(
         viewModelBuilder: () => HotSportViewModel(),
         fireOnModelReadyOnce: true,
@@ -149,6 +149,7 @@ class HotSportModel {
                     HotSportRequest(
                         hotSportId: parentHotsportId,
                         content: widgetInfo?.content,
+                        move: move,
                         data: this,
                         viewModel: viewModel)),
               )

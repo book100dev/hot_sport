@@ -405,9 +405,9 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
     _animationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: widget.duration));
     _animationController.value = 1.0;
-    _animationController.addListener(() {
-      setState(() {});
-    });
+    // _animationController.addListener(() {
+    //   setState(() {});
+    // });
     hotSportTabBarBadgeController.updateAllBadge = () {
       if (mounted) {
         setState(() {});
@@ -539,15 +539,30 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
     }
     final Color foregroundColor = textStyle.color ?? Colors.black;
     final BoxDecoration? boxDecoration;
+
+    ;
     if (_currentIndex == index) {
       boxDecoration = BoxDecoration(
           image: widget.itemBackgroundImageUrl != null
               ? widget.itemBackgroundImageUrl!.isEmpty
                   ? null
                   : DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          widget.itemBackgroundImageUrl!)
-                        ..evict(),
+                      image: ExtendedImage.network(
+                        widget.itemBackgroundImageUrl ?? '',
+                        loadStateChanged: (state) {
+                          if (state.extendedImageLoadState ==
+                              LoadState.failed) {
+                            return Container();
+                          }
+                          return null;
+                        },
+                        fit: BoxFit.cover,
+                        cache: true,
+                        shape: BoxShape.rectangle,
+                      ).image,
+                      // CachedNetworkImageProvider(
+                      //     widget.itemBackgroundImageUrl!)
+                      //   ..evict(),
                       //图片填充方式
                       fit: BoxFit.cover,
                       //图片位置
@@ -574,9 +589,22 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
               ? widget.itemUnselectedBackgroundImageUrl!.isEmpty
                   ? null
                   : DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          widget.itemUnselectedBackgroundImageUrl!)
-                        ..evict(),
+                      image: ExtendedImage.network(
+                        widget.itemUnselectedBackgroundImageUrl ?? '',
+                        loadStateChanged: (state) {
+                          if (state.extendedImageLoadState ==
+                              LoadState.failed) {
+                            return Container();
+                          }
+                          return null;
+                        },
+                        fit: BoxFit.cover,
+                        cache: true,
+                        shape: BoxShape.rectangle,
+                      ).image,
+                      // CachedNetworkImageProvider(
+                      //     widget.itemUnselectedBackgroundImageUrl!)
+                      //   ..evict(),
                       //图片填充方式
                       fit: BoxFit.cover,
                       //图片位置

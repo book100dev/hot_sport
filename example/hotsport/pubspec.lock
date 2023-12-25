@@ -42,7 +42,7 @@ packages:
     source: hosted
     version: "2.1.1"
   cached_network_image:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cached_network_image
       sha256: fd3d0dc1d451f9a252b32d95d3f0c3c487bc41a75eba2e6097cb0b9c71491b15
@@ -113,8 +113,16 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
-  decimal:
+  cupertino_icons:
     dependency: "direct main"
+    description:
+      name: cupertino_icons
+      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.6"
+  decimal:
+    dependency: transitive
     description:
       name: decimal
       sha256: "24a261d5d5c87e86c7651c417a5dbdf8bcd7080dd592533910e8d0505a279f21"
@@ -201,7 +209,7 @@ packages:
     source: sdk
     version: "0.0.0"
   font_awesome_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: font_awesome_flutter
       sha256: "959ef4add147753f990b4a7c6cccb746d5792dbdc81b1cde99e62e7edb31b206"
@@ -225,13 +233,20 @@ packages:
     source: hosted
     version: "7.6.0"
   google_fonts:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_fonts
       sha256: e70521755a6b08c6bde14ddae27dff5bf21010033888fc61da6c595f8a9f58c1
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.3"
+  hot_sport:
+    dependency: "direct main"
+    description:
+      path: "../.."
+      relative: true
+    source: path
+    version: "1.0.0"
   html:
     dependency: transitive
     description:
@@ -289,7 +304,7 @@ packages:
     source: hosted
     version: "2.0.1"
   lottie:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: lottie
       sha256: "0205213a2fc9ac016f07de3354663594236c76cece1572c683e79822d6fcfdb4"
@@ -574,7 +589,7 @@ packages:
     source: hosted
     version: "2.1.4"
   velocity_x:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: velocity_x
       sha256: b70a9de038ac2265cba77c030487463a75c66d65da8d4d917dc6834293ff73a3

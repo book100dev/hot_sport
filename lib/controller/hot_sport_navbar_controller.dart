@@ -15,31 +15,37 @@ class HotSportNavBarNotifier implements HotSportNavBarListener {
   @override
   //返回监听内容
   ValueNotifier<ListenerDetails> valueDetails =
-      ValueNotifier(ListenerDetails(index: 0,previousIndex: 0));
+      ValueNotifier(ListenerDetails(index: 0, previousIndex: 0));
 }
 
-class HotSportNavBarController extends GetxController implements HotSportNavBarListener{
-  HotSportNavBarController({this.hotSportModel, this.titles,this.currentIndex = 0,this.hotSportNavBarNotifier});
-  NavBarConfig config = NavBarConfig();
+class HotSportNavBarController extends GetxController
+    implements HotSportNavBarListener {
+  HotSportNavBarController(
+      {this.hotSportModel,
+      this.titles,
+      this.currentIndex = 0,
+      this.hotSportNavBarNotifier}) {
+    config = NavBarConfig();
+  }
+  late NavBarConfig config;
   HotSportModel? hotSportModel;
   List<String>? titles;
   HotSportNavBarNotifier? hotSportNavBarNotifier;
   int currentIndex;
   TabController? tabController;
- 
 
   void reSet() {
     config = NavBarConfig();
   }
 
   set index(_) {
-    if(tabController == null) return;
+    if (tabController == null) return;
     currentIndex = _;
-    hotSportNavBarNotifier?.valueDetails.value = ListenerDetails(index:_,previousIndex: tabController!.previousIndex);
+    hotSportNavBarNotifier?.valueDetails.value =
+        ListenerDetails(index: _, previousIndex: tabController!.previousIndex);
   }
 
   @override
   ValueNotifier<ListenerDetails> valueDetails =
-      ValueNotifier(ListenerDetails(index: 0,previousIndex: 0));
- 
+      ValueNotifier(ListenerDetails(index: 0, previousIndex: 0));
 }

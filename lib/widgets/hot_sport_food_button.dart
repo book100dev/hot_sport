@@ -232,6 +232,7 @@ class _FoodButtonState extends State<FoodButton>
   @override
   void initState() {
     super.initState();
+    //var fontLoader = FontLoader('FenPinYinTi2');
     hotSportFoodController = HotSportFoodController(food: widget.food);
     hotSportFoodController.delegate = this;
     if (foodGetXController != null) {

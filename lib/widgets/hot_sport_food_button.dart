@@ -660,63 +660,62 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           child: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 150,
-            ),
             alignment: Alignment.center,
-            child: widget.controller.count.value == 0
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
+            child: IntrinsicWidth(
+              child: widget.controller.count.value == 0
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            child: Container(
+                          constraints: const BoxConstraints(
+                            minWidth: 45,
+                            minHeight: 45,
+                          ),
+                          child: _buildAddBtn(context),
+                        )),
+                        40.widthBox,
+                        Expanded(
                           child: Container(
-                        constraints: const BoxConstraints(
-                          minWidth: 45,
-                          minHeight: 45,
+                            width: 45,
+                          ),
                         ),
-                        child: _buildAddBtn(context),
-                      )),
-                      40.widthBox,
-                      Expanded(
-                        child: Container(
-                          width: 45,
-                        ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            child: Container(
+                                constraints: const BoxConstraints(
+                                  minWidth: 45,
+                                  minHeight: 45,
+                                ),
+
+                                //height: 45,
+                                child: _buildMinusBtn(context))),
+                        Container(
+                            constraints: const BoxConstraints(
+                                minWidth: 40, maxWidth: 100),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                  onTap: () {
+                                    print('弹框确认数量');
+                                  },
+                                  child: _buildAnimatedSwitcher(context)),
+                            )),
+                        Expanded(
                           child: Container(
                               constraints: const BoxConstraints(
                                 minWidth: 45,
                                 minHeight: 45,
                               ),
-
-                              //height: 45,
-                              child: _buildMinusBtn(context))),
-                      Container(
-                          constraints:
-                              const BoxConstraints(minWidth: 40, maxWidth: 100),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                                onTap: () {
-                                  print('弹框确认数量');
-                                },
-                                child: _buildAnimatedSwitcher(context)),
-                          )),
-                      Expanded(
-                        child: Container(
-                            constraints: const BoxConstraints(
-                              minWidth: 45,
-                              minHeight: 45,
-                            ),
-                            child: _buildAddBtn(context)),
-                      ),
-                    ],
-                  ),
+                              child: _buildAddBtn(context)),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         );
       },

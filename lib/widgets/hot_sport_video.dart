@@ -45,16 +45,16 @@ class HotSportVideoPlayer extends StatefulWidget {
 
 class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
   late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url);
-
-    _controller.addListener(() {
-      setState(() {});
-    });
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse(widget.url),
+    );
     _controller.setLooping(true);
-    _controller.initialize().then((_) => setState(() {}));
+    _initializeVideoPlayerFuture = _controller.initialize();
     _controller.play();
   }
 
@@ -73,19 +73,48 @@ class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
         child: const Center(child: Icon(Icons.play_circle_outline_outlined)),
       );
     }
-    return AspectRatio(
-      aspectRatio: _controller.value.aspectRatio,
-      child: AbsorbPointer(
-        absorbing: kIsWeb ? true : false,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: <Widget>[
-            VideoPlayer(_controller),
-            _PlayPauseOverlay(controller: _controller),
-          ],
-        ),
-      ),
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the VideoPlayerController has finished initialization, use
+          // the data it provides to limit the aspect ratio of the video.
+          return AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            // Use the VideoPlayer widget to display the video.
+            child: AbsorbPointer(
+              absorbing: kIsWeb ? true : false,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  VideoPlayer(_controller),
+                  _PlayPauseOverlay(controller: _controller),
+                ],
+              ),
+            ),
+          );
+        } else {
+          // If the VideoPlayerController is still initializing, show a
+          // loading spinner.
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
+    // return AspectRatio(
+    //   aspectRatio: _controller.value.aspectRatio,
+    //   child: AbsorbPointer(
+    //     absorbing: kIsWeb ? true : false,
+    //     child: Stack(
+    //       alignment: Alignment.bottomCenter,
+    //       children: <Widget>[
+    //         VideoPlayer(_controller),
+    //         _PlayPauseOverlay(controller: _controller),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 

@@ -612,6 +612,15 @@ class _FoodButtonState extends State<FoodButton>
           value, foodNumber, foodViewModel);
     }
   }
+
+  @override
+  void hotSportButtonInputChanged(HotSportFoodValue value, double foodNumber) {
+    if (foodGetXController?.hotSportFoodButtonInputValueChanged != null) {
+      userWillShouldUpdateWithFoodValue(value, condition: true);
+      foodGetXController?.hotSportFoodButtonInputValueChanged!(
+          value, foodNumber, foodViewModel);
+    }
+  }
 }
 
 class CustomAnimatedSwitcher extends StatefulWidget {
@@ -650,6 +659,10 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
       return;
     }
     widget.controller.addFood();
+  }
+
+  void _inputChange() {
+    widget.controller.changeFood();
   }
 
   @override
@@ -700,9 +713,13 @@ class _CustomAnimatedSwitcherState extends State<CustomAnimatedSwitcher>
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
-                                  onTap: () {
-                                    print('弹框确认数量');
-                                  },
+                                  onTap: hotSportInterface
+                                          .isHotSportBuildersRegistered
+                                      ? null
+                                      : () {
+                                          print('弹框确认数量');
+                                          _inputChange();
+                                        },
                                   child: _buildAnimatedSwitcher(context)),
                             )),
                         Expanded(

@@ -1,5 +1,6 @@
 library hot_sport;
 
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,6 +17,7 @@ import 'package:stacked/stacked.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_player_win/video_player_win.dart';
 import 'package:badges/badges.dart' as sbadges;
 
 import 'adapter/json_model_adapter/box_request.dart';
@@ -83,7 +85,7 @@ part 'extension/hot_sport_model_ext.dart';
 typedef HotSportBuilder = ObjectAdapter Function(
     void Function(HotSportResponse));
 
-abstract class HotSportInterface{
+abstract class HotSportInterface {
   void registerCustomHotSportBuilders(Map<dynamic, HotSportBuilder> builders);
   void registerModelAdapter<T>(JsonModelTypeAdapter<T> adapter);
   Widget? hookIDETargetWidget(
@@ -217,18 +219,17 @@ class HotSportImpl extends HotSportInterface {
 
   @override
   GlobalThemeData? globalThemeData() => _globalThemeData;
-  
+
   @override
   bool get isHotSportBuildersRegistered {
-    if(getIt<HotSportService>().hotSportBuilder == null) {
+    if (getIt<HotSportService>().hotSportBuilder == null) {
       return false;
     }
-    if(getIt<HotSportService>().hotSportBuilder!.isEmpty) {
-       return false;
+    if (getIt<HotSportService>().hotSportBuilder!.isEmpty) {
+      return false;
     }
     return true;
   }
-
 }
 
 final HotSportInterface hotSportInterface = HotSportImpl();

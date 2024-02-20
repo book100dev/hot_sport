@@ -108,7 +108,9 @@ class _HotSportShopCartIconButtonWidgetState
                 ),
               ),
               badgeContent: Text(shopCartController.count.toString(),
-                  style:  TextStyle(color: Colors.white,fontSize: componetOption?.textStyle?.fontSize ?? 18)),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: componetOption?.textStyle?.fontSize ?? 18)),
               child: OutlinedButton(
                 onPressed: hotSportInterface.isHotSportBuildersRegistered
                     ? null

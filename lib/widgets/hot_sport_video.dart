@@ -66,6 +66,13 @@ class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    // if (Platform.isWindows) {
+    //   return SizedBox(
+    //     width: ComponetType.video.size.width,
+    //     height: ComponetType.video.size.height,
+    //     child: const Center(child: Icon(Icons.play_circle_outline_outlined)),
+    //   );
+    // }
     if (widget.url.isEmpty) {
       return SizedBox(
         width: ComponetType.video.size.width,

@@ -6,6 +6,7 @@ mixin FoodViewModelDelegate {
   void userUpdateHotSportFoodValue(HotSportFoodValue value, double foodNumber);
   void hotSportButtonReduce(HotSportFoodValue value, double foodNumber);
   void hotSportButtonAdd(HotSportFoodValue value, double foodNumber);
+  void hotSportButtonInputChanged(HotSportFoodValue value, double foodNumber);
   bool userWillShouldUpdateWithFoodValue(HotSportFoodValue value,
       {required bool condition});
 }
@@ -29,6 +30,9 @@ abstract class FoodGetXControllerDelegate<T> {
 
 class FoodGetXController extends GetxController {
   FoodGetXControllerDelegate? delegate;
+
+  Function(HotSportFoodValue hotSportFoodValue, double foodNumber,
+      dynamic foodViewModel)? hotSportFoodButtonInputValueChanged;
 
   Function(HotSportFoodValue hotSportFoodValue, double foodNumber,
       dynamic foodViewModel)? hotSportFoodButtonValueChanged;
@@ -114,6 +118,10 @@ class HotSportFoodController<T> extends ValueNotifier<HotSportFoodValue> {
   addFood() {
     count.value++;
     delegate?.hotSportButtonAdd(value, count.value);
+  }
+
+  changeFood() {
+    delegate?.hotSportButtonInputChanged(value, count.value);
   }
 
   set foodNumber(double number) {

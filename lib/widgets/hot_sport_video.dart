@@ -50,12 +50,19 @@ class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(
-      Uri.parse(widget.url),
-    );
-    _controller.setLooping(true);
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.play();
+    try {
+      _controller = VideoPlayerController.networkUrl(
+        // Uri.parse(/*widget.url*/'http://vjs.zencdn.net/v/oceans.mp4'),
+        Uri.parse(widget.url),
+      );
+      _controller.setLooping(true);
+      _initializeVideoPlayerFuture = _controller.initialize();
+     // if (widget.url.isNotEmpty) {
+        _controller.play();
+    //  }
+    } catch (_) {
+      //..
+    }
   }
 
   @override
@@ -73,6 +80,20 @@ class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
     //     child: const Center(child: Icon(Icons.play_circle_outline_outlined)),
     //   );
     // }
+    if (widget.url != _controller.dataSource) {
+      _controller.pause();
+      _controller.dispose();
+      try {
+        _controller = VideoPlayerController.networkUrl(
+          Uri.parse(widget.url),
+        );
+        _controller.setLooping(true);
+        _initializeVideoPlayerFuture = _controller.initialize();
+        _controller.play();
+      } catch (_) {
+        //..
+      }
+    }
     if (widget.url.isEmpty) {
       return SizedBox(
         width: ComponetType.video.size.width,

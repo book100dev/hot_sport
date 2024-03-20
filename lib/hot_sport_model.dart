@@ -32,12 +32,13 @@ class HotSportModel {
 
   List<HotSportModel>? components;
 
-  HotSportModel.fromJson(Map<String, dynamic> json,{String? foodCategoryName})
+  HotSportModel.fromJson(Map<String, dynamic> json, {String? foodCategoryName})
       : pageId = json['pageId'],
         hotsportId = json['hotsportId'],
         parentHotsportId = json['parentHotsportId'],
         widgetInfo = json['widgetInfo'] != null
-            ? WidgetInfo.fromJson(json['widgetInfo'],foodCategoryName: foodCategoryName)
+            ? WidgetInfo.fromJson(json['widgetInfo'],
+                foodCategoryName: foodCategoryName)
             : null,
         componetOption = json['componetOption'] != null
             ? ComponetOption.fromJson(json['componetOption'])
@@ -73,8 +74,8 @@ class HotSportModel {
     return data;
   }
 
-  late HotSportViewModel _model;
-  void update() => _model.notifyListeners();
+  HotSportViewModel? _model;
+  void update() => _model?.notifyListeners();
 
   Widget screenshot() {
     double top = componetOption?.position!.y ?? 0;
@@ -91,11 +92,34 @@ class HotSportModel {
         ));
   }
 
-  Widget drawRect({Size? parentSize,bool move = true}) {
+  Widget drawRect({Size? parentSize, bool move = true}) {
+    // double top = componetOption?.position!.y ?? 0;
+    // double left = componetOption?.position!.x ?? 0;
+    // double width = componetOption?.size!.width ?? 0;
+    // double height = componetOption?.size!.height ?? 0;
+    // return Positioned(
+    //     top: top,
+    //     left: left,
+    //     width: width,
+    //     height: height,
+    //     child: Builder(builder: (context) {
+    //       print('看看再次执行了没有');
+    //       return Container(
+    //         child: hotSportInterface.hotSportLayoutBuilder(
+    //             widgetInfo?.componetType,
+    //             context,
+    //             HotSportRequest(
+    //                 hotSportId: parentHotsportId,
+    //                 content: widgetInfo?.content,
+    //                 move: false,
+    //                 data: this)),
+    //       );
+    //     }));
     return ViewModelBuilder<HotSportViewModel>.reactive(
         viewModelBuilder: () => HotSportViewModel(),
-        fireOnModelReadyOnce: true,
+        fireOnViewModelReadyOnce: true,
         builder: (context, viewModel, _) {
+          print('hot_sport_model_执行了....');
           _model = viewModel;
           double top = componetOption?.position!.y ?? 0;
           double left = componetOption?.position!.x ?? 0;
@@ -123,7 +147,7 @@ class HotSportModel {
               if (top < 0) top = 0;
               componetOption?.position!.y = top;
             }
-            if ((left + width) > parentSize.width ) {
+            if ((left + width) > parentSize.width) {
               left =
                   parentSize.width - width < 0 ? 0 : parentSize.width - width;
               componetOption?.position!.x = left;
@@ -138,10 +162,10 @@ class HotSportModel {
             }
           }
           return Positioned(
-              top: top, //componetOption?.position!.y,
-              left: left, //componetOption?.position!.x,
-              width: width, //componetOption?.size!.width,
-              height: height, //componetOption?.size!.height,
+              top: top,
+              left: left,
+              width: width,
+              height: height,
               child: Container(
                 child: hotSportInterface.hotSportLayoutBuilder(
                     widgetInfo?.componetType,
@@ -152,132 +176,7 @@ class HotSportModel {
                         move: move,
                         data: this,
                         viewModel: viewModel)),
-              )
-              /*
-               FutureBuilder<Widget>(
-                  future: hotSportInterface.hotSportLayoutBuilder(
-                      context,
-                      HotSportRequest(
-                          hotSportId: parentHotsportId,
-                          content: widgetInfo?.content,
-                          data: this,
-                          viewModel: viewModel
-                          )),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return snapshot.data ??
-                          Stack(children: [
-                            Container(
-                              child: widgetInfo?.build(componetOption!),
-                            ),
-                            Stack(children: subWidgets),
-                          ]);
-                    }
-                    return Container();
-                  })*/
-
-              /*
-            GestureDetector(
-                onPanUpdate: (details) {
-                  //dragTarget
-                  //1、移动位置 改变 componetOption 的 position 的 x 和 y
-                  //2、属性面板值更新
-                  //3、先中状态更新
-                  bool divGroupLock = true;
-                  HotSportModel? parentHotSportModel =
-                      dragTarget?.findParent(this.parentHotsportId);
-                  if (parentHotSportModel != null &&
-                      parentHotSportModel.widgetInfo!.isDiv) {
-                    divGroupLock = parentHotSportModel.divGroupLock;
-                    divGroupLock = false;
-                  }
-                  dragTarget?.setMove = true;
-                  if (divGroupLock && parentHotSportModel != null) {
-                    parentHotSportModel.componetOption?.position!.x +=
-                        details.delta.dx;
-                    parentHotSportModel.componetOption?.position!.y +=
-                        details.delta.dy;
-                    parentHotSportModel.update();
-                    if (dragTarget != null) {
-                      dragTarget!.moveCallBack(parentHotSportModel);
-                    }
-                    return;
-                  }
-                  componetOption?.position!.x += details.delta.dx;
-                  componetOption?.position!.y += details.delta.dy;
-                  viewModel.notifyListeners();
-                  if (dragTarget != null) {
-                    dragTarget!.moveCallBack(this);
-                  }
-                },
-                onTap: () {
-                  seleted = true;
-                  if (canSeleted == false) seleted = false;
-                  if (dragTarget != null && _lastSeleted != isSeleted) {
-                    dragTarget?.setMove = false;
-                    dragTarget?.didSeleted(this);
-                  }
-                  _lastSeleted = true;
-                  viewModel.notifyListeners();
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      child: widgetInfo?.build(componetOption!),
-                      decoration: (isSeleted && canSeleted)
-                          ? BoxDecoration(
-                              border: RDottedLineBorder.all(
-                                width: 1,
-                              ),
-                            )
-                          : BoxDecoration(),
-                    ),
-                    Stack(children: subWidgets),
-                    (isSeleted && canSeleted)
-                        ? Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                                onPanUpdate: (details) {
-                                  dragTarget?.setMove = true;
-                                  componetOption?.size!.width +=
-                                      details.delta.dx;
-                                  componetOption?.size!.height +=
-                                      details.delta.dy;
-                                  viewModel.notifyListeners();
-                                  if (dragTarget != null) {
-                                    dragTarget!.sizeChangeCallBack(this);
-                                  }
-                                },
-                                child: Container(
-                                  width: 10,
-                                  height: 10,
-                                  color: Colors.red,
-                                )),
-                          )
-                        : Container(),
-                    Offstage(
-                      offstage: !acceptData,
-                      child: !widgetInfo!.isDiv
-                          ? Container()
-                          : Container(
-                              width: componetOption?.size?.width,
-                              height: componetOption?.size?.height,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                      child:
-                                          widgetInfo?.build(componetOption!)),
-                                  Center(child: Text('acceptData'))
-                                ],
-                              ),
-                              color: Colors.amberAccent),
-                    )
-                  ],
-                )),*/
-
-              );
+              ));
         });
   }
 }

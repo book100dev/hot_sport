@@ -119,27 +119,29 @@ class HotSportFoodButton<T> extends HotSportWidget {
 
   Widget _snapshot() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text('菜品'),
-          Row(
-            children: [
-              FaIcon(
-                FontAwesomeIcons.circleMinus,
-                color: HexColor.fromHex('#333333'),
-                size: 20,
-              ),
-              30.widthBox,
-              FaIcon(
-                FontAwesomeIcons.circlePlus,
-                color: HexColor.fromHex('#333333'),
-                size: 20,
-              )
-            ],
-          )
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('菜品'),
+            Row(
+              children: [
+                FaIcon(
+                  FontAwesomeIcons.circleMinus,
+                  color: HexColor.fromHex('#333333'),
+                  size: 20,
+                ),
+                30.widthBox,
+                FaIcon(
+                  FontAwesomeIcons.circlePlus,
+                  color: HexColor.fromHex('#333333'),
+                  size: 20,
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

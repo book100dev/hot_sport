@@ -1,9 +1,3 @@
-// import 'package:extended_image/extended_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:hot_sport/base/hot_sport_widget.dart';
-// import 'package:hot_sport/data/componet_type.dart';
-// import 'package:video_player/video_player.dart';
-
 part of hot_sport;
 
 class HotSportVideo extends HotSportWidget {
@@ -33,10 +27,7 @@ class HotSportVideo extends HotSportWidget {
 }
 
 class HotSportVideoPlayer extends StatefulWidget {
-  const HotSportVideoPlayer({
-    Key? key,
-    required this.url,
-  }) : super(key: key);
+  const HotSportVideoPlayer({Key? key, required this.url}) : super(key: key);
   final String url;
 
   @override
@@ -44,56 +35,66 @@ class HotSportVideoPlayer extends StatefulWidget {
 }
 
 class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
+  VideoPlayerController? _controller;
+  HotSportVideoController? _hotSportVideoController;
+  // late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-    try {
-      _controller = VideoPlayerController.networkUrl(
-        // Uri.parse(/*widget.url*/'http://vjs.zencdn.net/v/oceans.mp4'),
-        Uri.parse(widget.url),
-      );
-      _controller.setLooping(true);
-      _initializeVideoPlayerFuture = _controller.initialize();
-     // if (widget.url.isNotEmpty) {
-        _controller.play();
-    //  }
-    } catch (_) {
-      //..
+    if (Get.isRegistered<HotSportVideoController>()) {
+      _hotSportVideoController = Get.find<HotSportVideoController>();
+    } else {
+      _hotSportVideoController = HotSportVideoController();
+    }
+    _initPalyController();
+  }
+
+  void _initPalyController() {
+    if (widget.url.isNotEmpty) {
+      try {
+        _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url));
+        _controller?.initialize().then((value) {
+          if (_controller!.value.isInitialized) {
+            _controller?.play();
+            _controller?.addListener(() {
+              // print('监听中啊。。。。。${_controller!.value.isPlaying}');
+              // print('position。。。。。${_controller!.value.position}');
+              // print('duration。。。。。${_controller!.value.duration}');
+              if (!_controller!.value.isPlaying &&
+                  _controller!.value.position == _controller!.value.duration) {
+                // print('监听中啊。。。。。zhixing');
+                _controller!.seekTo(Duration.zero);
+                _controller!.play();
+              }
+            });
+            setState(() {
+              //..
+            });
+          } else {
+            print("video file load failed");
+            _controller?.dispose();
+            _controller = null;
+          }
+        }).catchError((e) {
+          print("controller.initialize() error occurs: $e");
+        });
+      } catch (_) {
+        //..
+      }
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.pause();
+    _controller?.removeListener(() {});
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (Platform.isWindows) {
-    //   return SizedBox(
-    //     width: ComponetType.video.size.width,
-    //     height: ComponetType.video.size.height,
-    //     child: const Center(child: Icon(Icons.play_circle_outline_outlined)),
-    //   );
-    // }
-    if (widget.url != _controller.dataSource) {
-      _controller.pause();
-      _controller.dispose();
-      try {
-        _controller = VideoPlayerController.networkUrl(
-          Uri.parse(widget.url),
-        );
-        _controller.setLooping(true);
-        _initializeVideoPlayerFuture = _controller.initialize();
-        _controller.play();
-      } catch (_) {
-        //..
-      }
-    }
     if (widget.url.isEmpty) {
       return SizedBox(
         width: ComponetType.video.size.width,
@@ -101,48 +102,41 @@ class _HotSportVideoPlayerState extends State<HotSportVideoPlayer> {
         child: const Center(child: Icon(Icons.play_circle_outline_outlined)),
       );
     }
-    return FutureBuilder(
-      future: _initializeVideoPlayerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // If the VideoPlayerController has finished initialization, use
-          // the data it provides to limit the aspect ratio of the video.
-          return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            // Use the VideoPlayer widget to display the video.
-            child: AbsorbPointer(
+
+    if (widget.url != _controller?.dataSource) {
+      _controller?.pause();
+      _controller?.dispose();
+      _initPalyController();
+    }
+    return GetBuilder<HotSportVideoController>(
+      //id: '',
+      init: _hotSportVideoController,
+      builder: (getController) {
+        //注册了HotSportVideoController 并且 不是编辑器
+        if (Get.isRegistered<HotSportVideoController>() && !hotSportInterface.isHotSportBuildersRegistered) {
+          if (getController.urls.isEmpty) {
+            _controller!.seekTo(Duration.zero);
+            _controller!.pause();
+          } else if (getController.play(url: widget.url)) {
+            _controller!.seekTo(Duration.zero);
+            _controller!.play();
+          }
+        }
+        return AspectRatio(
+          aspectRatio: _controller?.value.aspectRatio ?? 1,
+          child: AbsorbPointer(
               absorbing: kIsWeb ? true : false,
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  VideoPlayer(_controller),
-                  _PlayPauseOverlay(controller: _controller),
+                  VideoPlayer(_controller!),
+                  if (Platform.isAndroid || Platform.isIOS)
+                    _PlayPauseOverlay(controller: _controller!)
                 ],
-              ),
-            ),
-          );
-        } else {
-          // If the VideoPlayerController is still initializing, show a
-          // loading spinner.
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+              )),
+        );
       },
     );
-    // return AspectRatio(
-    //   aspectRatio: _controller.value.aspectRatio,
-    //   child: AbsorbPointer(
-    //     absorbing: kIsWeb ? true : false,
-    //     child: Stack(
-    //       alignment: Alignment.bottomCenter,
-    //       children: <Widget>[
-    //         VideoPlayer(_controller),
-    //         _PlayPauseOverlay(controller: _controller),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 

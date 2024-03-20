@@ -584,6 +584,7 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
               width: widget.borderWidth,
               style: BorderStyle.solid));
     } else {
+      print(widget.itemUnselectedBackgroundImageUrl);
       boxDecoration = BoxDecoration(
           image: widget.itemUnselectedBackgroundImageUrl != null
               ? widget.itemUnselectedBackgroundImageUrl!.isEmpty
@@ -596,7 +597,7 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
                               LoadState.failed) {
                             return Container();
                           }
-                          return null;
+                         // return null;
                         },
                         fit: BoxFit.cover,
                         cache: true,

@@ -27,6 +27,7 @@ import 'adapter/json_model_adapter/json_model_type_adapter.dart';
 import 'adapter/json_model_adapter/json_model_type_registry.dart';
 import 'controller/hot_sport_navbar_controller.dart';
 import 'controller/hot_sport_shop_cart_controller.dart';
+import 'controller/hot_sport_video_controller.dart';
 // import 'data/food_theme.dart';
 import 'data/sport_model_event.dart';
 import 'data/sport_molde_background.dart';
@@ -48,6 +49,7 @@ part 'base/hot_sport_widget.dart';
 // part 'base/componet.dart';
 
 part 'controller/hot_sport_tab_bar_badge_controller.dart';
+
 part 'data/componet_type.dart';
 part 'data/global_theme.dart';
 part 'mixin/base_componet_bean.dart';

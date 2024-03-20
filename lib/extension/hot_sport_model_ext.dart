@@ -35,4 +35,22 @@ extension HotSprotFirstWhereExt<T> on List<HotSportModel> {
       recursiveTraverseHotSportData(element);
     }
   }
+
+  List<HotSportModel> findTagPageComponentsWhereOrNull(
+      {required String componentTag}) {
+    List<HotSportModel> components = [];
+    recursiveTraverseHotSportData(HotSportModel parentHotsport) {
+      if (parentHotsport.widgetInfo?.componentTag == componentTag) {
+        components.add(parentHotsport);
+      }
+      parentHotsport.components?.forEach((element) {
+        recursiveTraverseHotSportData(element);
+      });
+    }
+
+    for (var element in this) {
+      recursiveTraverseHotSportData(element);
+    }
+    return components;
+  }
 }

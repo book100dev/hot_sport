@@ -50,7 +50,7 @@ class HotSportService {
     if (customHostSportBuilder == null) {
       return null;
     }
-    if(request?.move == false) {
+    if (request?.move == false) {
       return null;
     }
     ObjectAdapter? gestureAdapter =
